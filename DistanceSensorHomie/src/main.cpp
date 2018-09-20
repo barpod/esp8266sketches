@@ -6,17 +6,15 @@ unsigned long lastDistanceSent = 0;
 HomieNode distanceNode("distance", "distance");
 
 // defines pins numbers
-const int trigPin = 4;  //D4
-const int echoPin = 5;  //D3
+const int trigPin = 4;  //D2
+const int echoPin = 5;  //D1
 
 // defines variables
 long duration;
 int distance;
 
 void setupHandler() {
-    //Serial.println("Setting up trigger pin.");
     pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
-    //Serial.println("Setting up echo pin.");
     pinMode(echoPin, INPUT); // Sets the echoPin as an Input
 }
 
@@ -36,16 +34,10 @@ void loopHandler() {
 
     // Calculating the distance
     distance= duration*0.034/2;
-    // distance= 20;
-    // Prints the distance on the Serial Monitor
-    // Serial.print("Distance: ");
-    // Serial.println(distance);
-    //Homie.getLogger() << "Distance:: " << distance << " cm" << endl;
     Serial.println("Before sending distance.");
     Serial.println(distance);
     distanceNode.setProperty("distance").send(String(distance));
     lastDistanceSent = millis();
-     //Serial.println("Hello world");
    }
 }
 
@@ -53,7 +45,7 @@ void setup() {
   Serial.begin(74880);
   Serial.println();
   Serial.println();
-  Homie_setFirmware("test", "1.0.0");
+  Homie_setFirmware("distance-sensor", "1.0.0");
   Homie.setLedPin(16, false);
   Homie.disableResetTrigger();
   Homie.disableLedFeedback();
